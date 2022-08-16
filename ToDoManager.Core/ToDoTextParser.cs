@@ -27,7 +27,7 @@ public class ToDoTextParser
     {
         using var streamReader = File.OpenText(nameFile);
         int? temp = null;
-        Dto? toDodto = null;
+        ToDoDto? toDodto = null;
         bool readPropertyDescription = false;
         StringBuilder propertyDescription = new StringBuilder();
         StringBuilder value = new StringBuilder();
@@ -44,7 +44,7 @@ public class ToDoTextParser
             var charSymbol = Convert.ToChar(temp);
             if (charSymbol == '$')
             {
-                toDodto = new Dto();
+                toDodto = new ToDoDto();
             }
             else if (charSymbol == '%')
             {
@@ -94,7 +94,7 @@ public class ToDoTextParser
         return listTodo;
     }
 
-    private class Dto
+    private class ToDoDto
     {
         public uint Id { get; set; }
         public string NameTask { get; set; }
@@ -112,10 +112,10 @@ public class DataSerializator
     {
         var stringBuilder = new StringBuilder();
         stringBuilder
-            .Append($"$№{nameof(todo.Id)}^{todo.Id}")
-            .Append($"№{nameof(todo.NameTask)}^{todo.NameTask}")
-            .Append($"№{nameof(todo.DeadLineTimeTask)}^{todo.DeadLineTimeTask}")
-            .Append($"№{nameof(todo.ExecutionTimeTask)}^{todo.ExecutionTimeTask}")
+            .Append($"$№{nameof(todo.Id)}^{todo.Id}№")
+            .Append($"{nameof(todo.NameTask)}^{todo.NameTask}№")
+            .Append($"{nameof(todo.DeadLineTimeTask)}^{todo.DeadLineTimeTask:O}№")
+            .Append($"{nameof(todo.ExecutionTimeTask)}^{todo.ExecutionTimeTask:O}№")
             .Append($"%");
         return stringBuilder.ToString();
     }

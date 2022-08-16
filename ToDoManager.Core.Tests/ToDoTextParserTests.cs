@@ -17,7 +17,7 @@ public class ToDoTextParserTests
         var executionTime = new DateTime(2022, 7, 26, 23, 59, 59);
         var todo = new ToDo(name, deadLineTime, executionTime);
         var dataSerializator = new DataSerializator();
-        string expectedCurrent = $"$№{nameof(todo.Id)}^{todo.Id}№{nameof(todo.NameTask)}^{todo.NameTask}№{nameof(todo.DeadLineTimeTask)}^{todo.DeadLineTimeTask}№{nameof(todo.ExecutionTimeTask)}^{todo.ExecutionTimeTask}%";
+        string expectedCurrent = $"$№{nameof(todo.Id)}^{todo.Id}№{nameof(todo.NameTask)}^{todo.NameTask}№{nameof(todo.DeadLineTimeTask)}^{todo.DeadLineTimeTask:O}№{nameof(todo.ExecutionTimeTask)}^{todo.ExecutionTimeTask:O}№%";
 
         //act
         string actualCurrent = dataSerializator.SerializatingToString(todo);
