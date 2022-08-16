@@ -8,7 +8,14 @@ namespace ToDoManager.Core
         private string _nameTask;
         private DateTime _deadLine;
         private DateTime? _executionTimeTask;
-      
+
+        public ToDo(uint id, string nameTask, DateTime allottedTimeTask, DateTime? executionTimeTask)
+        {
+            Id = id;
+            _nameTask = nameTask;
+            _deadLine = allottedTimeTask;
+            _executionTimeTask = executionTimeTask;
+        }
         public ToDo(string nameTask, DateTime allottedTimeTask) : this(nameTask, allottedTimeTask, null)
         //this вызывает другой конструктор и передает ему аргументы
         {

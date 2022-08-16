@@ -27,7 +27,7 @@ public class ToDoTextParser
     {
         using var streamReader = File.OpenText(nameFile);
         int? temp = null;
-        Dto? dto = null;
+        Dto? toDodto = null;
         bool readPropertyDescription = false;
         StringBuilder propertyDescription = new StringBuilder();
         StringBuilder value = new StringBuilder();
@@ -44,30 +44,30 @@ public class ToDoTextParser
             var charSymbol = Convert.ToChar(temp);
             if (charSymbol == '$')
             {
-                dto = new Dto();
+                toDodto = new Dto();
             }
             else if (charSymbol == '%')
             {
-                ToDo toDo = new ToDo(dto.NameTask, dto.DeadLineTimeTask, dto.ExecutionTimeTask);
+                ToDo toDo = new ToDo(toDodto.Id,toDodto.NameTask, toDodto.DeadLineTimeTask, toDodto.ExecutionTimeTask);
                 listTodo.Add(toDo);
             }
             else if (charSymbol == '№')
             {
                 if (propertyDescription.ToString() == "Id")
                 {
-                    dto.Id = uint.Parse(value.ToString());
+                    toDodto.Id = uint.Parse(value.ToString());
                 }
                 else if (propertyDescription.ToString() == "NameTask")
                 {
-                    dto.NameTask = value.ToString();
+                    toDodto.NameTask = value.ToString();
                 }
                 else if (propertyDescription.ToString() == "DeadLineTimeTask")
                 {
-                    dto.DeadLineTimeTask = DateTime.Parse(value.ToString());
+                    toDodto.DeadLineTimeTask = DateTime.Parse(value.ToString());
                 }
                 else if (propertyDescription.ToString() == "ExecutionTimeTask")
                 {
-                    dto.ExecutionTimeTask = DateTime.Parse(value.ToString());
+                    toDodto.ExecutionTimeTask = DateTime.Parse(value.ToString());
                 }
                 propertyDescription.Clear();
                 readPropertyDescription = true;
