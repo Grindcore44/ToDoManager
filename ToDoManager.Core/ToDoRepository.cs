@@ -2,6 +2,11 @@
 {
     public class ToDoRepository
     {
+        ToDoFactory _toDoFactory;
+        public ToDoRepository(ToDoFactory toDoFactory)
+        {
+            _toDoFactory = toDoFactory;
+        }
         private Dictionary<uint, ToDo> _memory = new Dictionary<uint, ToDo>();
 
         public void Add(ToDo toDo)
@@ -29,6 +34,17 @@
                 if ((from.HasValue == false || from <= toDo.DeadLineTimeTask) && (to.HasValue == false || to >= toDo.DeadLineTimeTask))
                 {
                     yield return toDo;       
+                }
+            }
+        }
+
+        public IEnumerable<ToDo> GetToDoById(uint fromId, uint toId) //IEnumerable интерфейс для всех коолекций
+        {
+            foreach (var toDo in _memory.Values)
+            {
+                if ((toDo.Id >= fromId) && (toDo.Id <= toId))
+                {
+                    yield return toDo;
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ToDoManager.Core.Tests;
@@ -26,7 +27,7 @@ public class RepositoryTests
         var deadLineTime3 = new DateTime(2022, 10, 10, 10, 10, 10);
         var toDo3 = toDoFactory.CreateToDo(name3, deadLineTime3);
 
-        var toDoRepository = new ToDoRepository();
+        var toDoRepository = new ToDoRepository(toDoFactory);
         var expectedCurrent = new List<ToDo>();
         expectedCurrent.Add(toDo);
         expectedCurrent.Add(toDo2);
@@ -60,7 +61,7 @@ public class RepositoryTests
         var deadLineTime3 = new DateTime(2022, 10, 10, 10, 10, 10);
         var toDo3 = toDoFactory.CreateToDo (name3, deadLineTime3);
 
-        var toDoRepository = new ToDoRepository();
+        var toDoRepository = new ToDoRepository(toDoFactory);
         var expectedCurrent = new List<ToDo>();
         expectedCurrent.Add(toDo);
         expectedCurrent.Add(toDo2);
@@ -94,7 +95,7 @@ public class RepositoryTests
         var deadLineTime3 = new DateTime(2022, 10, 10, 10, 10, 10);
         var toDo3 = toDoFactory.CreateToDo(name3, deadLineTime3);
 
-        var toDoRepository = new ToDoRepository();
+        var toDoRepository = new ToDoRepository(toDoFactory);
         var expectedCurrent = new List<ToDo>();
         expectedCurrent.Add(toDo);
         expectedCurrent.Add(toDo2);
@@ -128,7 +129,7 @@ public class RepositoryTests
         var deadLineTime3 = new DateTime(2022, 10, 10, 10, 10, 10);
         var toDo3 = toDoFactory.CreateToDo(name3, deadLineTime3);
 
-        var toDoRepository = new ToDoRepository();
+        var toDoRepository = new ToDoRepository(toDoFactory);
         var expectedCurrent = new List<ToDo>();
         expectedCurrent.Add(toDo);
         expectedCurrent.Add(toDo2);
@@ -143,5 +144,6 @@ public class RepositoryTests
         //assert
         Assert.Equal(expectedCurrent, actualCurrent);
     }
+
 }
 

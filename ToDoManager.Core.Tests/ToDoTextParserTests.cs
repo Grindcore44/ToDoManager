@@ -18,7 +18,7 @@ public class ToDoTextParserTests
         var executionTime = new DateTime(2022, 7, 26, 23, 59, 59);
         var todo = toDoFactory.CreateToDo(name, deadLineTime, executionTime);
         var dataSerializator = new DataSerializator();
-        string expectedCurrent = $"№{nameof(todo.Id)}^{todo.Id}№{nameof(todo.NameTask)}^{todo.NameTask}№{nameof(todo.DeadLineTimeTask)}^{todo.DeadLineTimeTask:O}№{nameof(todo.ExecutionTimeTask)}^{todo.ExecutionTimeTask:O}№%";
+        string expectedCurrent = $"$№{nameof(todo.Id)}^{todo.Id}№{nameof(todo.NameTask)}^{todo.NameTask}№{nameof(todo.DeadLineTimeTask)}^{todo.DeadLineTimeTask:O}№{nameof(todo.ExecutionTimeTask)}^{todo.ExecutionTimeTask:O}№%";
 
         //act
         string actualCurrent = dataSerializator.SerializatingToString(todo);
@@ -36,7 +36,7 @@ public class ToDoTextParserTests
         ToDoFactory toDoFactory = new ToDoFactory();
         uint maxId = 45; 
         var dataSerializator = new DataSerializator();
-        string expectedCurrent = $"$№MaxToDoId^{maxId}";
+        string expectedCurrent = $"№MaxToDoId^{maxId}№";
         //act
         string actualCurrent = dataSerializator.SerializatingToString(maxId);
 
@@ -66,8 +66,10 @@ public class ToDoTextParserTests
         var toDo3 = toDoFactory.CreateToDo(name3, deadLineTime3, executionTime3);
 
         string path = "ToDoTextParserPotokToStringTests.txt";
+        string maxIdPath = "MaxIdToDoTextParserPotokToStringTests.txt";
+
         var toDoList = new List<ToDo>();
-        var toDoTextParser = new ToDoTextParser(path);
+        var toDoTextParser = new ToDoTextParser(toDoFactory, path, maxIdPath);
         string? stringLine = null;
         List<string> aclualContent = new List<string>();
         var dataSerializator = new DataSerializator();
@@ -91,9 +93,9 @@ public class ToDoTextParserTests
             aclualContent.Add(stringLine);
         }
 
-        Assert.Equal(expectedCurrent, aclualContent[1]);
-        Assert.Equal(expectedCurrent2, aclualContent[2]);
-        Assert.Equal(expectedCurrent3, aclualContent[3]);
+        Assert.Equal(expectedCurrent, aclualContent[0]);
+        Assert.Equal(expectedCurrent2, aclualContent[1]);
+        Assert.Equal(expectedCurrent3, aclualContent[2]);
     }
 
     [Fact]
@@ -118,8 +120,9 @@ public class ToDoTextParserTests
         var toDo3 = toDoFactory.CreateToDo(name3, deadLineTime3, executionTime3);
 
         string path = "ReadFromFileTest.txt";
+        string maxIdPath = "MaxIdReadFromFileTest";
         var toDoList = new List<ToDo>();
-        var toDoTextParser = new ToDoTextParser(path);
+        var toDoTextParser = new ToDoTextParser(toDoFactory, path, maxIdPath);
         toDoList.Add(toDo);
         toDoList.Add(toDo2);
         toDoList.Add(toDo3);
@@ -131,7 +134,7 @@ public class ToDoTextParserTests
         }
         //act
         var actualContent = new List<ToDo>();
-        actualContent = toDoTextParser.ReadFromFile(path).ToList();
+        actualContent = toDoTextParser.ReadFromFile(path, maxIdPath).ToList();
         //assert
         Assert.Equal(expectedContent, actualContent);
 

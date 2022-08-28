@@ -3,13 +3,16 @@
 public class ToDoFactory
 {
     private uint _idCount = 0;
+    ToDoTextParser _toDoTextParser;
 
-    public ToDoFactory()
-    { }
+    public ToDoFactory(ToDoTextParser toDoTextParser)
+    {
+        _toDoTextParser = toDoTextParser;
+    }
 
-    public ToDoFactory(uint idCount)
-    { 
-        _idCount = GuardCheksMore(idCount);
+    public ToDoFactory(uint idCount = 0)
+    {
+        _idCount = idCount+1;
     }
 
     public ToDo CreateToDo(string nameTask, DateTime deadLine, DateTime? executionTimeTask = null)
@@ -21,20 +24,11 @@ public class ToDoFactory
 
     public ToDo CreateToDo(uint id, string nameTask, DateTime deadLine, DateTime? executionTimeTask = null)
     {
-        if (id > _idCount)
-        { 
-            throw new ArgumentOutOfRangeException("this id is double");
-        }
-        _idCount = id + 1;
-        return new ToDo(id, nameTask, deadLine, executionTimeTask);
-    }
-
-    public uint GuardCheksMore(uint value)
-    {
-        if (value < _idCount)
+        if (id >= _idCount)
         {
-            throw new ArgumentOutOfRangeException("this id is double");
+            throw new ArgumentOutOfRangeException("no exist");
         }
-        return value;
+
+        return new ToDo(id, nameTask, deadLine, executionTimeTask);
     }
 }

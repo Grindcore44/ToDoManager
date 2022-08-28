@@ -5,29 +5,34 @@ namespace ToDoManager.Core;
 public class ToDoTextParser
 {
     private string _nameFile;
+    private string _maxIdNameFile;
+    private ToDoFactory _toDoFactory; 
 
-
-    public ToDoTextParser(string nameFile)
+    public ToDoTextParser(ToDoFactory toDoFactory, string nameFile, string maxIdNameFile = null)
     {
         _nameFile = nameFile;
+        _maxIdNameFile = maxIdNameFile;
+        _toDoFactory = toDoFactory;
     }
     public void SaveInFile(IEnumerable<ToDo> data)
     {
         var dataSerializator = new DataSerializator();
         string path = _nameFile;
+        string pathMaxId = _maxIdNameFile;
         using var streamWriter = File.CreateText(path);
+        using var maxIdStreamWriter = File.CreateText(pathMaxId);
         uint maxToDoId = 0;
 
         foreach (var toDo in data)
         {
             uint temp = toDo.Id;
-            if (temp > maxToDoId)
+            if (temp >= maxToDoId)
             {
                 maxToDoId = temp;
             }
         }
 
-        streamWriter.WriteLine(dataSerializator.SerializatingToString(maxToDoId));
+        maxIdStreamWriter.WriteLine(dataSerializator.SerializatingToString(maxToDoId));
 
         foreach (var toDo in data)
         {
@@ -35,9 +40,10 @@ public class ToDoTextParser
         }
     }
 
-    public IEnumerable<ToDo> ReadFromFile(string nameFile)
+    public IEnumerable<ToDo> ReadFromFile(string nameFile, string maxIdNameFile)
     {
         using var streamReader = File.OpenText(nameFile);
+        using var maxIdtreamReader = File.OpenText(maxIdNameFile);
         int? temp = null;
         ToDoDto? toDodto = null;
         bool readPropertyDescription = false;
@@ -45,8 +51,43 @@ public class ToDoTextParser
         StringBuilder value = new StringBuilder();
         List<ToDo> listTodo = new List<ToDo>();
         uint maxId = 0;
-        ToDoFactory toDoFactory = new ToDoFactory(maxId); //я не знаю поменяется ли она потом или создастся с 0 (а еще я скорее всего нихуя не успел и сейчас сижу на занятии краснею, поэтому Гошан тебе привет от егора из 27.08)
 
+        do
+        {
+            temp = maxIdtreamReader.Read();
+            if (temp.Value == -1)
+            {
+                break;
+            }
+
+            var charSymbol = Convert.ToChar(temp);
+            if (charSymbol == '№')
+            {
+                if (propertyDescription.ToString() == "MaxToDoId")
+                {
+                    maxId = uint.Parse(value.ToString());
+                }
+                propertyDescription.Clear();
+                readPropertyDescription = true;
+            }
+            else if (readPropertyDescription)
+            {
+                if (charSymbol == '^')
+                {
+                    value.Clear();
+                    readPropertyDescription = false;
+                }
+                else
+                {
+                    propertyDescription.Append(charSymbol);
+                }
+            }
+            else if (readPropertyDescription == false)
+            {
+                value.Append(charSymbol);
+            }
+        }
+        while (true);
 
         do
         {
@@ -63,14 +104,10 @@ public class ToDoTextParser
             }
             else if (charSymbol == '%')
             {
-                listTodo.Add(toDoFactory.CreateToDo(toDodto.Id, toDodto.NameTask, toDodto.DeadLineTimeTask, toDodto.ExecutionTimeTask));
+                listTodo.Add(_toDoFactory.CreateToDo(toDodto.Id, toDodto.NameTask, toDodto.DeadLineTimeTask, toDodto.ExecutionTimeTask));
             }
             else if (charSymbol == '№')
             {
-                if (propertyDescription.ToString() == "MaxToDoId")
-                {
-                    maxId = uint.Parse(value.ToString());
-                }
                 if (propertyDescription.ToString() == "Id")
                 {
                     toDodto.Id = uint.Parse(value.ToString());
@@ -128,7 +165,7 @@ public class DataSerializator
     {
         var stringBuilder = new StringBuilder();
         stringBuilder
-            .Append($"№{nameof(todo.Id)}^{todo.Id}№")
+            .Append($"$№{nameof(todo.Id)}^{todo.Id}№")
             .Append($"{nameof(todo.NameTask)}^{todo.NameTask}№")
             .Append($"{nameof(todo.DeadLineTimeTask)}^{todo.DeadLineTimeTask:O}№")
             .Append($"{nameof(todo.ExecutionTimeTask)}^{todo.ExecutionTimeTask:O}№")
@@ -139,7 +176,7 @@ public class DataSerializator
     public string SerializatingToString(uint maxToDoId)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append($"$№MaxToDoId^{maxToDoId}");
+        stringBuilder.Append($"№MaxToDoId^{maxToDoId}№");
         return stringBuilder.ToString();
     }
 }

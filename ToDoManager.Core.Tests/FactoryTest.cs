@@ -12,7 +12,7 @@ namespace ToDoManager.Core.Tests
         public void CreateToDoTest()
         {
             // arrenge
-            var toDoFactory = new ToDoFactory();
+            var toDoFactory = new ToDoFactory(1u);
             var name1 = "name1";
             var name2 = "name2";
             uint id = 0;
@@ -24,10 +24,5 @@ namespace ToDoManager.Core.Tests
             //assert
             Assert.NotEqual(currentWithoutId.Id, currentWithId.Id);
         }
-
-
-
-
-
     }
 }
