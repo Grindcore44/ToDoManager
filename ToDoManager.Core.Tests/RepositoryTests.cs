@@ -12,17 +12,19 @@ public class RepositoryTests
     public void GetToDoByTimeFromToTest()
     {
         //arrage
+        ToDoFactory toDoFactory = new ToDoFactory();
         var name = "Name";
         var deadLineTime = new DateTime(2044, 11, 11, 11, 11, 11);
-        var toDo = new ToDo(name, deadLineTime);
+        var toDo = toDoFactory.CreateToDo(name, deadLineTime);
+
 
         var name2 = "Name2";
         var deadLineTime2 = new DateTime(2033, 11, 11, 11, 11, 11);
-        var toDo2 = new ToDo(name2, deadLineTime2);
+        var toDo2 = toDoFactory.CreateToDo(name2, deadLineTime2);
 
         var name3 = "Name3";
         var deadLineTime3 = new DateTime(2022, 10, 10, 10, 10, 10);
-        var toDo3 = new ToDo(name3, deadLineTime3);
+        var toDo3 = toDoFactory.CreateToDo(name3, deadLineTime3);
 
         var toDoRepository = new ToDoRepository();
         var expectedCurrent = new List<ToDo>();
@@ -45,17 +47,18 @@ public class RepositoryTests
     public void GetToDoByTimeNullToTest()
     {
         //arrage
+        ToDoFactory toDoFactory = new ToDoFactory();
         var name = "Name";
         var deadLineTime = new DateTime(2044, 11, 11, 11, 11, 11);
-        var toDo = new ToDo(name, deadLineTime);
+        var toDo = toDoFactory.CreateToDo(name, deadLineTime);
 
         var name2 = "Name2";
         var deadLineTime2 = new DateTime(2033, 11, 11, 11, 11, 11);
-        var toDo2 = new ToDo(name2, deadLineTime2);
+        var toDo2 = toDoFactory.CreateToDo(name2, deadLineTime2);
 
         var name3 = "Name3";
         var deadLineTime3 = new DateTime(2022, 10, 10, 10, 10, 10);
-        var toDo3 = new ToDo(name3, deadLineTime3);
+        var toDo3 = toDoFactory.CreateToDo (name3, deadLineTime3);
 
         var toDoRepository = new ToDoRepository();
         var expectedCurrent = new List<ToDo>();
@@ -78,17 +81,18 @@ public class RepositoryTests
     public void GetToDoByTimeFromNullTest()
     {
         //arrage
+        ToDoFactory toDoFactory = new ToDoFactory();
         var name = "Name";
         var deadLineTime = new DateTime(2044, 11, 11, 11, 11, 11);
-        var toDo = new ToDo(name, deadLineTime);
+        var toDo = toDoFactory.CreateToDo(name, deadLineTime);
 
         var name2 = "Name2";
         var deadLineTime2 = new DateTime(2033, 11, 11, 11, 11, 11);
-        var toDo2 = new ToDo(name2, deadLineTime2);
+        var toDo2 = toDoFactory.CreateToDo(name2, deadLineTime2);
 
         var name3 = "Name3";
         var deadLineTime3 = new DateTime(2022, 10, 10, 10, 10, 10);
-        var toDo3 = new ToDo(name3, deadLineTime3);
+        var toDo3 = toDoFactory.CreateToDo(name3, deadLineTime3);
 
         var toDoRepository = new ToDoRepository();
         var expectedCurrent = new List<ToDo>();
@@ -111,17 +115,18 @@ public class RepositoryTests
     public void GetToDoByTimeNullNullTest()
     {
         //arrage
+        ToDoFactory toDoFactory = new ToDoFactory();
         var name = "Name";
         var deadLineTime = new DateTime(2044, 11, 11, 11, 11, 11);
-        var toDo = new ToDo(name, deadLineTime);
+        var toDo = toDoFactory.CreateToDo(name, deadLineTime);
 
         var name2 = "Name2";
         var deadLineTime2 = new DateTime(2033, 11, 11, 11, 11, 11);
-        var toDo2 = new ToDo(name2, deadLineTime2);
+        var toDo2 = toDoFactory.CreateToDo(name2, deadLineTime2);
 
         var name3 = "Name3";
         var deadLineTime3 = new DateTime(2022, 10, 10, 10, 10, 10);
-        var toDo3 = new ToDo(name3, deadLineTime3);
+        var toDo3 = toDoFactory.CreateToDo(name3, deadLineTime3);
 
         var toDoRepository = new ToDoRepository();
         var expectedCurrent = new List<ToDo>();

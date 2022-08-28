@@ -11,26 +11,12 @@ namespace ToDoManager.Core
         private DateTime _deadLine;
         private DateTime? _executionTimeTask;
 
-        public ToDo(uint id, string nameTask, DateTime allottedTimeTask, DateTime? executionTimeTask)
+        public ToDo(uint id, string nameTask, DateTime DeadLineTimeTask, DateTime? executionTimeTask = null)
         {
             Id = id;
             _nameTask = nameTask;
-            _deadLine = allottedTimeTask;
+            _deadLine = DeadLineTimeTask;
             _executionTimeTask = executionTimeTask;
-        }
-        public ToDo(string nameTask, DateTime allottedTimeTask) : this(nameTask, allottedTimeTask, null)
-        //this вызывает другой конструктор и передает ему аргументы
-        {
-
-        }
-
-        public ToDo(string nameTask, DateTime deadLine, DateTime? executionTimeTask)
-        {
-            _nameTask = nameTask;
-            _deadLine = deadLine;
-            _executionTimeTask = executionTimeTask;
-            var toDoID = ToDoID.GetInstance();
-            Id = toDoID.GetID();
         }
  
         public uint Id { get; }

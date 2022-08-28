@@ -6,6 +6,7 @@ public class ToDoTextParser
 {
     private string _nameFile;
 
+
     public ToDoTextParser(string nameFile)
     {
         _nameFile = nameFile;
@@ -14,12 +15,23 @@ public class ToDoTextParser
     {
         var dataSerializator = new DataSerializator();
         string path = _nameFile;
-
         using var streamWriter = File.CreateText(path);
+        uint maxToDoId = 0;
 
-        foreach (var todo in data)
+        foreach (var toDo in data)
         {
-            streamWriter.WriteLine(dataSerializator.SerializatingToString(todo));
+            uint temp = toDo.Id;
+            if (temp > maxToDoId)
+            {
+                maxToDoId = temp;
+            }
+        }
+
+        streamWriter.WriteLine(dataSerializator.SerializatingToString(maxToDoId));
+
+        foreach (var toDo in data)
+        {
+            streamWriter.WriteLine(dataSerializator.SerializatingToString(toDo));
         }
     }
 
@@ -32,6 +44,9 @@ public class ToDoTextParser
         StringBuilder propertyDescription = new StringBuilder();
         StringBuilder value = new StringBuilder();
         List<ToDo> listTodo = new List<ToDo>();
+        uint maxId = 0;
+        ToDoFactory toDoFactory = new ToDoFactory(maxId); //я не знаю поменяется ли она потом или создастся с 0 (а еще я скорее всего нихуя не успел и сейчас сижу на занятии краснею, поэтому Гошан тебе привет от егора из 27.08)
+
 
         do
         {
@@ -48,11 +63,14 @@ public class ToDoTextParser
             }
             else if (charSymbol == '%')
             {
-                ToDo toDo = new ToDo(toDodto.Id,toDodto.NameTask, toDodto.DeadLineTimeTask, toDodto.ExecutionTimeTask);
-                listTodo.Add(toDo);
+                listTodo.Add(toDoFactory.CreateToDo(toDodto.Id, toDodto.NameTask, toDodto.DeadLineTimeTask, toDodto.ExecutionTimeTask));
             }
             else if (charSymbol == '№')
             {
+                if (propertyDescription.ToString() == "MaxToDoId")
+                {
+                    maxId = uint.Parse(value.ToString());
+                }
                 if (propertyDescription.ToString() == "Id")
                 {
                     toDodto.Id = uint.Parse(value.ToString());
@@ -106,17 +124,22 @@ public class ToDoTextParser
 
 public class DataSerializator
 {
-
-
     public string SerializatingToString(ToDo todo)
     {
         var stringBuilder = new StringBuilder();
         stringBuilder
-            .Append($"$№{nameof(todo.Id)}^{todo.Id}№")
+            .Append($"№{nameof(todo.Id)}^{todo.Id}№")
             .Append($"{nameof(todo.NameTask)}^{todo.NameTask}№")
             .Append($"{nameof(todo.DeadLineTimeTask)}^{todo.DeadLineTimeTask:O}№")
             .Append($"{nameof(todo.ExecutionTimeTask)}^{todo.ExecutionTimeTask:O}№")
             .Append($"%");
+        return stringBuilder.ToString();
+    }
+
+    public string SerializatingToString(uint maxToDoId)
+    {
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append($"$№MaxToDoId^{maxToDoId}");
         return stringBuilder.ToString();
     }
 }

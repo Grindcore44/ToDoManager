@@ -9,10 +9,11 @@ namespace ToDoManager.Core.Tests
         //public void DoneStatusTaskTest()
         //{
         //    // arrange
+        //    ToDoFactory toDoFactory = new ToDoFactory();
         //    var name = "Name";
         //    var timeComplete = new DateTime(2022, 7, 26, 23, 59, 59);
-        //    var expectedCurrent = DateTime.Now;
-        //    var toDo = new ToDo(name, timeComplete, expectedCurrent);
+        //    var expectedCurrent = new DateTime(2022, 7, 26, 23, 59, 59);
+        //    var toDo = toDoFactory.CreateToDo(name, timeComplete, expectedCurrent);
 
         //    //act
         //    toDo.DoneStatusTask();
@@ -29,10 +30,11 @@ namespace ToDoManager.Core.Tests
         public void PostponeSatusTaskTest()
         {
             // arrange
+            ToDoFactory toDoFactory = new ToDoFactory();
             var name = "Name";
             var allotedTime = DateTime.Now;
             var newAllotedTime = new DateTime(2022, 7, 26, 23, 59, 59);
-            var toDo = new ToDo(name, allotedTime);
+            var toDo = toDoFactory.CreateToDo(name, allotedTime);
             var expectedCurrent = newAllotedTime;
 
             // act
@@ -47,9 +49,10 @@ namespace ToDoManager.Core.Tests
         public void ReopenOpenTask()
         {
             // arrange
+            ToDoFactory toDoFactory = new ToDoFactory();
             var name = "Name";
             var allotedTime = DateTime.Now;
-            var toDo = new ToDo(name, allotedTime);
+            var toDo = toDoFactory.CreateToDo(name, allotedTime);
             var expectedName = toDo.NameTask;
             var expectedAllotedTime = toDo.DeadLineTimeTask;
             var expectedExequtedTime = toDo.ExecutionTimeTask;
@@ -70,10 +73,11 @@ namespace ToDoManager.Core.Tests
         public void ReopenCompletedTask()
         {
             // arrange
+            ToDoFactory toDoFactory = new ToDoFactory();
             var name = "Name";
             var allotedTime = DateTime.Now;
             var executionTime = new DateTime(2022, 7, 26, 23, 59, 59);
-            var toDo = new ToDo(name, allotedTime, executionTime);
+            var toDo = toDoFactory.CreateToDo(name, allotedTime, executionTime);
             var expectedName = toDo.NameTask;
             var expectedAllotedTime = toDo.DeadLineTimeTask;
 
@@ -93,13 +97,13 @@ namespace ToDoManager.Core.Tests
         public void ReopenCompletedTaskAllotedTime()
         {
             // arrange
+            ToDoFactory toDoFactory = new ToDoFactory();
             var name = "Name";
             var allotedTime = DateTime.Now;
             var exequtionTime = new DateTime(2022, 7, 25, 23, 59, 59);
-            var toDo = new ToDo(name, allotedTime, exequtionTime);
+            var toDo = toDoFactory.CreateToDo(name, allotedTime, exequtionTime);
             var newAllotedTime = new DateTime(2022, 8, 26, 23, 59, 59);
             var expectedName = toDo.NameTask;
-            var expectedExequtedTime = toDo.ExecutionTimeTask; // или лучше прописать точное значение?
             var expectedAllotedTime = toDo.DeadLineTimeTask;// или лучше прописать точное значение?
 
             // act
